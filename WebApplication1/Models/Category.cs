@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel; 
 
 namespace WebApplication1.Models
 {
@@ -16,7 +17,9 @@ namespace WebApplication1.Models
         [Key] // The Entity Framework Core will know that the first one which is ID is our primary key
         public int Id { get; set; } // This is our primary key 
         [Required] // Another data annotation to add required to any of the properties NOT NULL in SQL  
+        [DisplayName("Category Name")]
         public string Name { get; set; }
+        [DisplayName("Display Order")]
         public int DisplayOrder { get; set; }
     
     
