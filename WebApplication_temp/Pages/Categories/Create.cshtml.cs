@@ -5,6 +5,8 @@ using WebApplication_temp.Models;
 
 namespace WebApplication_temp.Pages.Categories
 {
+
+    [BindProperties]
     public class CreateModel : PageModel
     {
         //Constructor 
@@ -19,6 +21,13 @@ namespace WebApplication_temp.Pages.Categories
         }
         public void OnGet()
         {
+        }
+        public ActionResult OnPost(Category obj) 
+        {
+            _db.Categories.Add(Category);
+            _db.SaveChanges();
+            TempData["success"] = "Category created successfully.";
+            return RedirectToPage("Index");
         }
     }
 }

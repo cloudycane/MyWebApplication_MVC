@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication1.Models; //import like method in python
+using WebApplication.Models;
 
-namespace WebApplication1.Controllers.Data
+namespace WebApplication.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {

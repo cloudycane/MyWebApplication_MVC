@@ -1,0 +1,36 @@
+﻿@page
+@model WebApplication_temp.Pages.Categories.DeleteModel
+
+<form method="post">
+    <input asp-for="Category.Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete Category</h2>
+        </div>
+
+        <div asp-validation-summary="ModelOnly">
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Category.Name" class="p-0"></label>
+            <Input asp-for="Category.Name" type="text" class="form-control" />
+
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Category.DisplayOrder" class="p-0"></label>
+            <Input asp-for="Category.DisplayOrder" type="text" class="form-control" />
+
+        </div>
+
+        <div class="row">
+            <div class="col-6" col-md-3>
+                <button type="submit" class="btn btn-danger form-control" style="width:150px">Delete</button>
+            </div>
+
+            <div class="col-6" col-md-3>
+                <a asp-page="/categories/index" class="btn btn-secondary form-control" style="width:150px">Back to List</a>
+            </div>
+        </div>
+
+    </div>
+</form>
