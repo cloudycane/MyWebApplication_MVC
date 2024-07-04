@@ -1,25 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WebApplication.DataAccess.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication.DataAccess.Repository.IRepository;
 using WebApplication.Models;
 
 
-namespace WebApplication1.Controllers
+namespace WebApplication1.Areas.Admin.Controllers
 {
+    // To tell the machine that this belongs to a specific area 
+
+    [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepo;
-        public CategoryController(ICategoryRepository db) 
+        private readonly IUnitofWork _unitOfWork;
+        public CategoryController(IUnitofWork unitOfWork) //Dependency Injection
         {
-            _categoryRepo =db;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: CategoryController
 
         public ActionResult Index()
         {
-            List<Category> objCategoryList = _categoryRepo.GetAll().ToList();
+            List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -48,12 +49,13 @@ namespace WebApplication1.Controllers
                 ModelState.AddModelError("", "Test is an invalid value.");
             }
 
-            if (ModelState.IsValid) { 
+            if (ModelState.IsValid)
+            {
 
-            _categoryRepo.Add(obj);
-            _categoryRepo.Save();
-            TempData["success"] = "Category created successfully.";
-            return RedirectToAction("Index");
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
+                TempData["success"] = "Category created successfully.";
+                return RedirectToAction("Index");
 
             }
 
@@ -64,12 +66,12 @@ namespace WebApplication1.Controllers
         // GET: CategoryController/Edit/5 // EDIT // WE NEED TO KNOW THE CATEGORY ID
         public ActionResult Edit(int? id)
         {
-            if (id==null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category categoryFromDb = _categoryRepo.Get(u=>u.Id==id);
-            if(categoryFromDb == null)
+            Category categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
+            if (categoryFromDb == null)
             {
                 return NotFound();
             }
@@ -82,14 +84,14 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Category obj)
         {
-           if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _categoryRepo.Update(obj);
-                _categoryRepo.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category updated successfully.";
                 return RedirectToAction("Index");
             }
-           return View();
+            return View();
         }
 
         // GET: CategoryController/Delete/5
@@ -99,7 +101,7 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-            Category categoryFromDb = _categoryRepo.Get(u => u.Id == id);
+            Category categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -110,16 +112,17 @@ namespace WebApplication1.Controllers
 
         // POST: CategoryController/Delete/5
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeletePOST (int? id)
+        public ActionResult DeletePOST(int? id)
         {
-            Category obj = _categoryRepo.Get(u => u.Id == id);
-            if (obj == null) {
+            Category obj = _unitOfWork.Category.Get(u => u.Id == id);
+            if (obj == null)
+            {
                 return NotFound();
             }
-            _categoryRepo.Remove(obj);
-            _categoryRepo.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category deleted successfully.";
-            return RedirectToAction("Index"); 
+            return RedirectToAction("Index");
         }
     }
 }

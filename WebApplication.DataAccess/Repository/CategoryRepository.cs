@@ -28,7 +28,7 @@ namespace WebApplication.DataAccess.Repository
 
         public void Save()
         {
-            _db.SaveChanges(); 
+            _db.SaveChanges();
         }
 
         public void Update(Category obj)

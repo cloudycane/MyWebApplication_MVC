@@ -9,9 +9,11 @@ namespace WebApplication.DataAccess.Repository.IRepository
 {   
     public interface ICategoryRepository : IRepository<Category>
     {
+        void Save();
+
+
         //Here we will have void update 
         void Update(Category obj);
-        void Save();
 
     }
 }
