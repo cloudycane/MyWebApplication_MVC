@@ -18,6 +18,7 @@ namespace WebApplication.Models
         public string ISBN { get; set; }
         [Required]
         public string Author { get; set; }
+        public string Description { get; set; }
         [Required]
         [Display(Name ="List Price")]
         [Range(1,1000)]
