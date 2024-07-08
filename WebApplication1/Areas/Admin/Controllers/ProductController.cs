@@ -55,18 +55,6 @@ namespace WebApplication1.Areas.Admin.Controllers
 
         }
 
-        // GET: CategoryController/Edit/5 // EDIT // WE NEED TO KNOW THE CATEGORY ID
-        public ActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
 
             return View(productFromDb);
         }
