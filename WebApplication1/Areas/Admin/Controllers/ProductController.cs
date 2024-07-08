@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication.DataAccess.Repository.IRepository;
 using WebApplication.Models;
+using WebApplication.Models.ViewModels;
 
 
 namespace WebApplication1.Areas.Admin.Controllers
@@ -21,57 +23,76 @@ namespace WebApplication1.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
+            
             return View(objProductList);
         }
 
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
+            
             return View();
         }
 
         // GET: CategoryController/Create
-        public ActionResult Create()
+        public ActionResult Upsert(int? id)
         {
-            return View();
+            // Select Options 
+            // The Variable ViewBag.CategoryList is equivalent to CategoryList
+            // ViewBag.CategoryList = CategoryList;
+           
+
+            ProductVM productVM = new()
+            {
+                CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                Product = new Product()
+            };
+
+            if(id == null || id == 0)
+            {
+                // create
+
+                return View(productVM);
+            }
+            else
+            {
+               // update
+               productVM.Product = _unitOfWork.Product.Get(u=> u.Id == id);
+                return View(productVM);
+            }
+
+            
         }
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product obj)
+        public ActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
            
             if (ModelState.IsValid)
             {
 
-                _unitOfWork.Product.Add(obj);
+                _unitOfWork.Product.Add(productVM.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Book created successfully.";
                 return RedirectToAction("Index");
 
             }
-
-            return View();
-
-        }
-
-
-            return View(productFromDb);
-        }
-
-        // POST: CategoryController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product obj)
-        {
-            if (ModelState.IsValid)
+            else
             {
-                _unitOfWork.Product.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Product updated successfully.";
-                return RedirectToAction("Index");
+
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+
+            return View(productVM);
             }
-            return View();
         }
 
         // GET: CategoryController/Delete/5

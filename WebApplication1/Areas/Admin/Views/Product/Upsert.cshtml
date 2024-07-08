@@ -1,0 +1,103 @@
+﻿@model ProductVM //DEPENDENCY INJECTION 
+
+<form method="post" enctype="multipart/form-data">
+
+    @*We should have a hidden property*@
+    <input asp-for="Product.Id" hidden />
+    <div class="border p-3 my-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update":"Create" ) Product</h2>
+        </div>
+
+        <div asp-validation-summary="All">
+
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Title" class="p-0"></label>
+            <Input asp-for="Product.Title" type="text" class="form-control"/>
+            <span asp-validation-for="Product.Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Description" class="p-0"></label>
+            <Input asp-for="Product.Description" type="text" class="form-control"/>
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.ISBN" class="p-0"></label>
+            <Input asp-for="Product.ISBN" type="text" class="form-control" />
+            <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Author" class="p-0"></label>
+            <Input asp-for="Product.Author" type="text" class="form-control" />
+            <span asp-validation-for="Product.Author" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.ListPrice" class="p-0"></label>
+            <Input asp-for="Product.ListPrice" type="text" class="form-control" />
+            <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Price" class="p-0"></label>
+            <Input asp-for="Product.Price" type="text" class="form-control" />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Price50" class="p-0"></label>
+            <Input asp-for="Product.Price50" type="text" class="form-control" />
+            <span asp-validation-for="Product.Price50" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Price100" class="p-0"></label>
+            <Input asp-for="Product.Price100" type="text" class="form-control" />
+            <span asp-validation-for="Product.Price100" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 shadow">
+                <option disabled selected>--Select Category</option>
+            </select>
+            
+            <label asp-for="Product.CategoryId" class="ms-2"></label>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.ImageUrl" class="p-0"></label>
+            <Input type="file" class="form-control" />
+            
+        </div>
+
+        <div class="row">
+            <div class="col-6" col-md-3>
+                @if (Model.Product.Id != 0)
+                {
+                    <button type="submit" class="btn btn-primary form-control" style="width:150px">Update</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary form-control" style="width:150px">Create</button>
+                }
+                
+            </div>
+            
+            <div class="col-6" col-md-3>
+                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary form-control" style="width:150px">Back to List</a>
+            </div>
+        </div>
+        
+    </div>
+</form>
+
+@section Scripts{ 
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
