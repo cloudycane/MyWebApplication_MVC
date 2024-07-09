@@ -13,9 +13,15 @@ namespace WebApplication1.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitofWork _unitOfWork;
-        public ProductController(IUnitofWork unitOfWork) //Dependency Injection
+
+        // In order to insert Images and Files we need to depend inject or insert a constructor of IWebHostEnvironment
+        // 
+
+        private readonly IWebHostEnvironment webHostEnvironment; 
+        public ProductController(IUnitofWork unitOfWork, IWebHostEnvironment webHostEnvironment) //Dependency Injection of IUnitofWork and IWebHostEnvironment
         {
             _unitOfWork = unitOfWork;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         // GET: CategoryController
@@ -75,7 +81,28 @@ namespace WebApplication1.Areas.Admin.Controllers
            
             if (ModelState.IsValid)
             {
+                string wwwRootPath = webHostEnvironment.WebRootPath;
 
+                // if file is not null then we want to get that file 
+
+                if(file != null)
+                {
+                    // renaming the file 
+                    // This means a random guid name + file extension name
+
+                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                    // navigate or routing to the product path in wwwroot (location)
+
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, filename), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+
+                }
                 _unitOfWork.Product.Add(productVM.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Book created successfully.";
