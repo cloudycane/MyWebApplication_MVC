@@ -17,11 +17,11 @@ namespace WebApplication1.Areas.Admin.Controllers
         // In order to insert Images and Files we need to depend inject or insert a constructor of IWebHostEnvironment
         // 
 
-        private readonly IWebHostEnvironment webHostEnvironment; 
+        private readonly IWebHostEnvironment _webHostEnvironment; 
         public ProductController(IUnitofWork unitOfWork, IWebHostEnvironment webHostEnvironment) //Dependency Injection of IUnitofWork and IWebHostEnvironment
         {
             _unitOfWork = unitOfWork;
-            this.webHostEnvironment = webHostEnvironment;
+            this._webHostEnvironment = webHostEnvironment;
         }
 
         // GET: CategoryController
@@ -81,7 +81,7 @@ namespace WebApplication1.Areas.Admin.Controllers
            
             if (ModelState.IsValid)
             {
-                string wwwRootPath = webHostEnvironment.WebRootPath;
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
 
                 // if file is not null then we want to get that file 
 
@@ -101,6 +101,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                         file.CopyTo(fileStream);
                     }
 
+                    productVM.Product.ImageUrl = @"\images\product\" + filename; 
 
                 }
                 _unitOfWork.Product.Add(productVM.Product);
