@@ -14,8 +14,8 @@ namespace WebApplication.DataAccess.Repository.IRepository
         // T- Generic Model or Category
         // Retrieve Data 
         // GetAll the Data from the T or the Category or the generic model...
-        IEnumerable<T> GetAll ();
-        T Get(Expression<Func<T, bool>> filter); // Linq operation
+        IEnumerable<T> GetAll (string? includeProperties = null);
+        T Get(Expression<Func<T, bool>> filter, string? includeProperties = null); // Linq operation
         void Add(T entity); // void method to add similar to Create New Category 
                             // void Update(T entity); we like to use them outside the repository in CategoryController
         void Remove(T entity); // void delete method similar to Delete Category 

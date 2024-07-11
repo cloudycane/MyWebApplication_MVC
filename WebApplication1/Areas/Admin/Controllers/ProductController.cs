@@ -28,7 +28,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
             
             return View(objProductList);
         }
@@ -122,7 +122,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 {
                     _unitOfWork.Product.Update(productVM.Product);
                 }
-                _unitOfWork.Product.Add(productVM.Product);
+                
                 _unitOfWork.Save();
                 TempData["success"] = "Book created successfully.";
                 return RedirectToAction("Index");
@@ -171,5 +171,16 @@ namespace WebApplication1.Areas.Admin.Controllers
             TempData["success"] = "Product deleted successfully.";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+
+        [HttpGet]
+        public ActionResult GetAll() 
+        {
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            return Json(new { data = objProductList });
+        }
+
+        #endregion
     }
 }
