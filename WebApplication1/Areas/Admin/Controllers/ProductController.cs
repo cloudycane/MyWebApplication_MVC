@@ -96,6 +96,16 @@ namespace WebApplication1.Areas.Admin.Controllers
 
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
 
+                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    {
+                        // DELETE OLD IMAGE
+                        var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
                     using (var fileStream = new FileStream(Path.Combine(productPath, filename), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -103,6 +113,14 @@ namespace WebApplication1.Areas.Admin.Controllers
 
                     productVM.Product.ImageUrl = @"\images\product\" + filename; 
 
+                }
+                if (productVM.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(productVM.Product);
+                }
+                else 
+                {
+                    _unitOfWork.Product.Update(productVM.Product);
                 }
                 _unitOfWork.Product.Add(productVM.Product);
                 _unitOfWork.Save();
