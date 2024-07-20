@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using WebApplication.DataAccess.Repository.IRepository;
 using WebApplication.Models;
 
 namespace WebApplication1.Areas.Customer.Controllers
@@ -8,15 +9,18 @@ namespace WebApplication1.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUnitofWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUnitofWork unitofWork)
         {
             _logger = logger;
+            _unitOfWork = unitofWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+            return View(productList);
         }
 
         public IActionResult Privacy()
