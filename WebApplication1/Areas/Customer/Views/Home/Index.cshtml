@@ -21,7 +21,7 @@
                                 <p class="text-dark opacity-75 text-center">As low as: <span>@product.Price100.ToString("c")</span></p>
                             </div>
                             <div>
-                                <a href="#" class="btn btn-primary bg-gradient border-0 form-control">
+                                <a asp-action="Details" class="btn btn-primary bg-gradient border-0 form-control" asp-route-id="@product.Id">
                                     Details
                                 </a>
                             
