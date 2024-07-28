@@ -2,6 +2,7 @@ using WebApplication.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.DataAccess.Repository.IRepository;
 using WebApplication.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity;
 
 
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options=> 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // adding a builder service
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IUnitofWork, UnitOfWork>();
 
