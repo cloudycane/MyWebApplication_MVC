@@ -13,6 +13,7 @@ namespace WebApplication.DataAccess.Data
         }
         public DbSet<Category> Categories { get; set; } // Using this one-line code from Entity Framework will make a Table in SQL Server
         public DbSet<Product> Products { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
