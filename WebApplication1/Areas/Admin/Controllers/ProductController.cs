@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication.DataAccess.Repository.IRepository;
 using WebApplication.Models;
 using WebApplication.Models.ViewModels;
+using WebApplication.Utility;
 
 
 namespace WebApplication1.Areas.Admin.Controllers
@@ -10,6 +12,7 @@ namespace WebApplication1.Areas.Admin.Controllers
     // To tell the machine that this belongs to a specific area 
 
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitofWork _unitOfWork;
