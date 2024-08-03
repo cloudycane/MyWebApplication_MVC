@@ -20,3 +20,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.divider-text:before, .divider-text::after{
+    color: white;
+    content: "";
+    flex: 1;
+    border-bottom: auto 0.25rem;
+    box-shadow: 0 -2px; 
+
+}
