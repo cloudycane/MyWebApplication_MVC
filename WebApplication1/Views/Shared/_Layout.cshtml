@@ -32,7 +32,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                       
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="Customer" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="es">ES</a>
+
+                        </li>
+
+                        <li class="nav-item">
+                            
+                            <a class="nav-link text-white" asp-area="Customer" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="en">EN</a>
+
+                        </li>
                         
                         @if (User.IsInRole(SD.Role_Admin)){
                         
@@ -55,6 +65,7 @@
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
                         </li>
+
                         }
 
                     </ul>

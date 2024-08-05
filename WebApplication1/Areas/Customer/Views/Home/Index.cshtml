@@ -1,4 +1,9 @@
-﻿@model IEnumerable<Product>
+﻿
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
 
 <div class="row pb-3">
     @foreach (var product in Model)
@@ -22,7 +27,7 @@
                             </div>
                             <div>
                                 <a asp-action="Details" class="btn btn-primary bg-gradient border-0 form-control" asp-route-id="@product.Id">
-                                    Details
+                                 <p>@WebApplication1.Properties.Resources.Details</p>
                                 </a>
                             
                             </div>
