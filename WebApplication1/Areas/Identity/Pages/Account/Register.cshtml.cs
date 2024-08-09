@@ -114,7 +114,11 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
             // OTHER PROPERTIES 
+
             // ESTÁ CREADA POR DEFECTO EN LA BASE DE DATOS
+
+            [Required]
+            public string Name { get; set; }
             public string? StreetAddress { get; set; }
             public string? City { get; set; }
             public string? State { get; set; }
@@ -159,6 +163,14 @@ namespace WebApplication1.Areas.Identity.Pages.Account
            
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                user.Name = Input.Name;
+                user.StreetAddress = Input.StreetAddress;
+                user.City = Input.City;
+                user.State = Input.State;
+                user.PostalCode = Input.PostalCode;
+                user.PhoneNumber = Input.PhoneNumber;
+       
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
